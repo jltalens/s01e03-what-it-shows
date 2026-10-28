@@ -1,50 +1,36 @@
 ---
 layout: runbook
-title: '#4471 · two date failures merged together'
-owner: jltalens
-status: closed
-reviewed: 2026-10-28
-signature: jltalens
+title: '#4471 · dates parse mm/dd in eu locales'
+owner: support desk
+status: known
+reviewed: 2026-09-30
 ---
 
 <script>
   import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
   import Callout from '#lib/kb/Callout.svelte';
-  import RenderStamp from '#lib/kb/RenderStamp.svelte';
 </script>
 
-Ticket #4471 does not describe one problem. Subject-only deduplication merged reports from two
-separate failures. The report count below is computed from unique report IDs because the ticket
-export contains overlapping pages.
+Since April, people have told us their bookings land on the wrong day: a month flipped. By
+4 October the desk had **412 reports**.
+
+**Merged as one issue.** The parser reads dates month first, and our tenants write the day
+first. The fix is queued.
+
+<Callout>
+Known. One issue, one fix queued.
+</Callout>
+
+## What was merged
 
 <CauseTable ticket={4471} />
 
-## Problems
+## Since April
 
-### Shared parser assumes month first
+<QueueTimeline ticket={4471} />
 
-The shared parser reads dates as `MM/DD` for tenants whose locale is day first. This flips the day
-and month for booking-v2 submissions and for app or email reports from booking-v3 tenants.
+## Lessons
 
-### Booking-v3 gives a month-first hint to day-first tenants
-
-Booking-v3 prints `MM/DD/YYYY` under its date field. People follow that hint, but the form reads the
-value using the tenant's day-first locale. This is a separate form-only failure and must be tracked
-separately.
-
-<Callout>
-Split by computed cause, not by intake tag or subject. Intake tags are guesses, and the shared
-subject is why these failures were merged.
-</Callout>
-
-## Resolution
-
-- `parser` — fixed on 2026-10-05 by `fix(dates): parse dd/mm for eu locales`.
-- `hint` — won't fix; the booking-v3 form was retired.
-
-Ticket #4471 is closed.
-
-The five reports the desk described as one-day moves remain with their computed cause. Tenant
-locale and booking form determine the failure; the wording of an individual report does not.
-
-<RenderStamp {signature} />
+- A big ticket is mostly one bug reported many times. Merge early, count once.
+- Write the page while the queue is still in your head.

@@ -1,0 +1,50 @@
+---
+layout: runbook
+title: '#4471 · two date failures merged together'
+owner: jltalens
+status: closed
+reviewed: 2026-10-28
+signature: jltalens
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+Ticket #4471 does not describe one problem. Subject-only deduplication merged reports from two
+separate failures. The report count below is computed from unique report IDs because the ticket
+export contains overlapping pages.
+
+<CauseTable ticket={4471} />
+
+## Problems
+
+### Shared parser assumes month first
+
+The shared parser reads dates as `MM/DD` for tenants whose locale is day first. This flips the day
+and month for booking-v2 submissions and for app or email reports from booking-v3 tenants.
+
+### Booking-v3 gives a month-first hint to day-first tenants
+
+Booking-v3 prints `MM/DD/YYYY` under its date field. People follow that hint, but the form reads the
+value using the tenant's day-first locale. This is a separate form-only failure and must be tracked
+separately.
+
+<Callout>
+Split by computed cause, not by intake tag or subject. Intake tags are guesses, and the shared
+subject is why these failures were merged.
+</Callout>
+
+## Resolution
+
+- `parser` — fixed on 2026-10-05 by `fix(dates): parse dd/mm for eu locales`.
+- `hint` — won't fix; the booking-v3 form was retired.
+
+Ticket #4471 is closed.
+
+The five reports the desk described as one-day moves remain with their computed cause. Tenant
+locale and booking form determine the failure; the wording of an individual report does not.
+
+<RenderStamp {signature} />
