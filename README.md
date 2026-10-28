@@ -33,9 +33,10 @@ Support desk. Decision records: whoever signed them.
 
 ## S01E03 deliverable
 
-- [Signed `.svx` source](src/routes/kb/incidents/4471-causes/+page.svx)
+- [Signed page in the kb route](src/routes/kb/incidents/4471-causes/+page.svx)
+- [Standalone `.svx` source](kb-page/4471-causes.svx)
 - [Rendered desk page](rendered/4471-causes.html)
-- [Visual capture](rendered/4471-causes.png)
+- [Page as the desk sees it](kb-page/page-as-desk-sees-it.png)
 
 ---
 
