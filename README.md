@@ -31,6 +31,12 @@ src/lib/data/       exports from the ticket system
 
 Support desk. Decision records: whoever signed them.
 
+## S01E03 deliverable
+
+- [Signed `.svx` source](src/routes/kb/incidents/4471-causes/+page.svx)
+- [Rendered desk page](rendered/4471-causes.html)
+- [Visual capture](rendered/4471-causes.png)
+
 ---
 
 Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
